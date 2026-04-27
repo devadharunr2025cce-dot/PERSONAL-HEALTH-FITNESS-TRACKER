@@ -1,0 +1,35 @@
+import datetime
+import re
+health={}
+n=int(input("Enter number of days: "))
+for i in range(n):
+    print("\nDay",i+1)
+    steps=int(input("Enter steps: "))
+    weight=int(input("Enter weight (kg): "))
+    exercise=int(input("Exercise minutes: "))
+    calories=(steps*0.04)+(exercise*weight*0.05)
+    health["Day"+str(i+1)]=calories
+unique=set(health.values())
+try:
+    file=open("health.txt","a")
+    today=datetime.datetime.now()
+    for day,cal in health.items():
+        file.write(day+" "+str(cal)+" "+str(today)+"\n")
+    file.close()
+except:
+    print("File Error")
+print("\nSaved Data")
+file=open("health.txt","r")
+for line in file:
+    print(line)
+file.close()
+total=sum(health.values())
+avg=total/len(health)
+print("\nTotal Calories Burned:",total)
+print("Average Calories Burned:",avg)
+search=input("\nSearch Day (Example Day1): ")
+for day in health:
+    if re.search(search,day):
+        print(day,"Calories:",health[day])
+print("\nUnique Calories Values")
+print(unique)
